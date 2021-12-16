@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".Activities.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="365dp"
+        android:layout_height="501dp"
         android:layout_marginTop="4dp"
+        android:background="#639F9D96"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +20,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="318dp"
+        android:layout_height="98dp"
         android:layout_marginBottom="50dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,6 +32,7 @@
             android:id="@+id/addCelebrityButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#95865C"
             android:text="Add  celebrity" />
 
         <LinearLayout
@@ -46,6 +49,8 @@
                 android:hint=" Celebrity Name"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
@@ -53,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#95865C"
                 android:minWidth="48dp"
                 android:text="Submit"
                 tools:ignore="TouchTargetSizeCheck" />

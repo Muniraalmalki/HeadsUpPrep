@@ -13,9 +13,9 @@ interface APIInterface {
     @POST("/celebrities/")
     fun addCelebrity(@Body data: CelebrityItem):Call<CelebrityItem>
 
-    @PUT("/celebrities/{id}")
+    @PUT("/celebrities/{pk}")
     fun updateCelebrity(@Path("pk") pk:Int,@Body data:CelebrityItem): Call<CelebrityItem>
 
-    @DELETE("/celebrities/{id}")
+    @DELETE("/celebrities/{pk}")
     fun deleteCelebrity(@Path("pk")pk: Int):Call<Void>
 }

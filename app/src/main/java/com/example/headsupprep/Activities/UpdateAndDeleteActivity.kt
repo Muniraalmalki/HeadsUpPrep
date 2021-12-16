@@ -3,6 +3,9 @@ package com.example.headsupprep.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
+import android.util.Log
+
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -17,14 +20,17 @@ import retrofit2.Response
 class UpdateAndDeleteActivity : AppCompatActivity() {
 
     private lateinit var etName: EditText
-   lateinit var  edName:CelebrityItem
+
     private lateinit var etTaboo1: EditText
     private lateinit var etTaboo2: EditText
     private lateinit var etTaboo3: EditText
+
     private lateinit var updateButton: Button
     private lateinit var deleteButton: Button
     private lateinit var backButton: Button
-    private lateinit var celebrityItem: CelebrityItem
+    var pk =0
+
+
     val apiClient = APIClient().getClient()?.create(APIInterface::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,75 +45,40 @@ class UpdateAndDeleteActivity : AppCompatActivity() {
         deleteButton = findViewById(R.id.deleteButton)
         backButton = findViewById(R.id.backButton)
 
-        celebrityItem = CelebrityItem(
-            intent.extras!!.getString("name:", ""),
-            intent.extras!!.getInt("pk:", 0),
-            intent.extras!!.getString("taboo1:", ""),
-            intent.extras!!.getString("taboo2:", ""),
-            intent.extras!!.getString("taboo3:", "")
-        )
 
+        val data = intent.extras?.getStringArrayList("data")
+        if (data != null) {
+            etName.setText(data[1])
+            etTaboo1.setText(data[2])
+            etTaboo2.setText(data[3])
+            etTaboo3.setText(data[4])
+        } else {
+            Toast.makeText(this, "Sorry null", Toast.LENGTH_SHORT).show()
+        }
 
-
-
-       etName.setText(celebrityItem.name)
-        etTaboo1.setText(celebrityItem.taboo1)
-        etTaboo2.setText(celebrityItem.taboo2)
-        etTaboo3.setText(celebrityItem.taboo3)
 
         updateButton.setOnClickListener {
-            updateCelebrity()
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-//            val name = etName.text.toString()
-//            val taboo1 = etTaboo1.text.toString()
-//            val taboo2 = etTaboo2.text.toString()
-//            val taboo3 = etTaboo3.text.toString()
-//            var pk = 0
-//            apiClient?.updateCelebrity(pk, CelebrityItem(name, 0, taboo1, taboo2, taboo3))
-//                ?.enqueue(object : Callback<CelebrityItem> {
-//                    override fun onResponse(
-//                        call: Call<CelebrityItem>,
-//                        response: Response<CelebrityItem>
-//                    ) {
-//                        Toast.makeText(
-//                            this@UpdateAndDeleteActivity,
-//                            "User Updated Successfully",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                        val intent = Intent(this@UpdateAndDeleteActivity, MainActivity::class.java)
-//                        startActivity(intent)
-//                    }
-//
-//                    override fun onFailure(call: Call<CelebrityItem>, t: Throwable) {
-//                        Toast.makeText(
-//                            this@UpdateAndDeleteActivity,
-//                            "Something went wrong ",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    }
-//
-//                })
 
-        }
-        deleteButton.setOnClickListener {
-            val intent = Intent(this@UpdateAndDeleteActivity, MainActivity::class.java)
-            startActivity(intent)
-        }
-        deleteButton.setOnClickListener {
+            val pk = data!![0].toInt()
+            Log.d("id","succeffully${pk}")
+
             val name = etName.text.toString()
             val taboo1 = etTaboo1.text.toString()
             val taboo2 = etTaboo2.text.toString()
             val taboo3 = etTaboo3.text.toString()
-            var pk = 0
-            deleteCelebrity(pk)
-        }
-    }
 
-    private fun updateCelebrity() {
-        apiClient?.updateCelebrity(celebrityItem.pk, celebrityItem)?.enqueue(object : Callback<CelebrityItem> {
-                    override fun onResponse(call: Call<CelebrityItem>, response: Response<CelebrityItem>) {
-                        Toast.makeText(this@UpdateAndDeleteActivity, "User Updated Successfully", Toast.LENGTH_LONG).show()
+            apiClient!!.updateCelebrity(pk, CelebrityItem(name, pk, taboo1, taboo2, taboo3))
+                ?.enqueue(object : Callback<CelebrityItem> {
+                    override fun onResponse(
+                        call: Call<CelebrityItem>,
+                        response: Response<CelebrityItem>
+                    ) {
+                        Toast.makeText(
+                            this@UpdateAndDeleteActivity,
+                            "User Updated Successfully",
+                            Toast.LENGTH_LONG
+                        ).show()
+
                         val intent = Intent(this@UpdateAndDeleteActivity, MainActivity::class.java)
                         startActivity(intent)
                     }
@@ -122,20 +93,35 @@ class UpdateAndDeleteActivity : AppCompatActivity() {
 
                 })
 
-    }
+        }
 
-    private fun deleteCelebrity(pk: Int) {
-        apiClient!!.deleteCelebrity(pk).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                Toast.makeText(this@UpdateAndDeleteActivity, "User Deleted Successfully", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@UpdateAndDeleteActivity, MainActivity::class.java)
-                startActivity(intent)
-            }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@UpdateAndDeleteActivity, "Something Went wrong", Toast.LENGTH_LONG).show()
-            }
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        deleteButton.setOnClickListener {
 
-        })
+            apiClient!!.deleteCelebrity(data!![0].toInt()).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Toast.makeText(
+                        this@UpdateAndDeleteActivity,
+                        "User Deleted Successfully",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    val intent = Intent(this@UpdateAndDeleteActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(
+                        this@UpdateAndDeleteActivity,
+                        "Something Went wrong",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
     }
 }
+

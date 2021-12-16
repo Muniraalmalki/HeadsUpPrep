@@ -36,12 +36,13 @@ class MainActivity : AppCompatActivity() {
 
         celebrityList = listOf()
 
-        getAllCelebrity()
+
         recyclerView = findViewById(R.id.recyclerView)
         recyclerViewAdapter = RecyclerViewAdapter((celebrityList))
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         recyclerView.adapter = recyclerViewAdapter
 
+        getAllCelebrity()
 
 
         etName = findViewById(R.id.etName)
@@ -55,14 +56,24 @@ class MainActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.submitButton)
         submitButton.setOnClickListener {
 
-       //     Toast.makeText(this, "Please enter",Toast.LENGTH_LONG).show()
-            if (etName.text.isNotEmpty() || etName.text.isNotBlank()){
-                searchName()
-            }else{
-                Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
+            var  founded : CelebrityItem? = null
+            val searchText = etName.text.toString()
+            for (i in celebrityList){
+                if (searchText == i.name){
+                    founded = i
+                    break
+                }
             }
+            if (founded != null){
+                val intent = Intent(this,UpdateAndDeleteActivity::class.java)
+                intent.putStringArrayListExtra("data", arrayListOf(founded.pk.toString(),founded.name,founded.taboo1,founded.taboo2,founded.taboo3))
+                startActivity(intent)
+            }else {
+                Toast.makeText(this,"Not found ",Toast.LENGTH_LONG).show()
+                val intent = Intent(this,AddCelebrityActivity::class.java)
+                startActivity(intent)
 
-
+            }
         }
     }
 
@@ -84,23 +95,4 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
-
-    private fun searchName() {
-        for (i in celebrityList){
-            if (etName.text.toString() == i.name){
-                val intent = Intent(this, UpdateAndDeleteActivity::class.java)
-                intent.putExtra("name:", i.name)
-                intent.putExtra("pk:", i.pk)
-                intent.putExtra("taboo1:", i.taboo1)
-                intent.putExtra("taboo2:", i.taboo2)
-                intent.putExtra("taboo3:", i.taboo3)
-                startActivity(intent)
-                //Toast.makeText(this,"Searching ",Toast.LENGTH_LONG).show()
-                break
-            }
-            else if (etName.text.toString() != i.name){
-               Toast.makeText(this, "Not found", Toast.LENGTH_SHORT).show()
-            }
-    }
-    }
-}
+ }
