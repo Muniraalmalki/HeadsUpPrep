@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@drawable/bg1"
     tools:context=".Activities.AddCelebrityActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
+
         android:layout_width="257dp"
         android:layout_height="248dp"
         android:layout_marginStart="30dp"
@@ -29,9 +31,11 @@
             android:ems="10"
             android:hint="Name"
             android:inputType="textPersonName"
+
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
+
 
         <EditText
             android:id="@+id/etTaboo1"
@@ -40,9 +44,11 @@
             android:ems="10"
             android:hint="Taboo 1"
             android:inputType="textPersonName"
+
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
+
 
         <EditText
             android:id="@+id/etTaboo2"
@@ -51,9 +57,11 @@
             android:ems="10"
             android:hint="Taboo 2"
             android:inputType="textPersonName"
+
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
+
 
         <EditText
             android:id="@+id/eetTaboo3"
@@ -62,27 +70,33 @@
             android:ems="10"
             android:hint="Taboo 3"
             android:inputType="textPersonName"
+
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
+
 
         <Button
             android:id="@+id/addCelebrityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:backgroundTint="#675438"
+
             android:text="Add  celebrity" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/backButton"
+
         android:layout_width="255dp"
         android:layout_height="59dp"
         android:layout_marginStart="88dp"
         android:layout_marginEnd="68dp"
         android:layout_marginBottom="180dp"
         android:backgroundTint="#675438"
+
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
